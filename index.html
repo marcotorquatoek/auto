@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e3a47">
+<title>Libretto Auto</title>
+<style>
+:root{--bg:#e8e5dd;--surf:#f8f6f1;--ink:#1b2328;--mute:#6b747b;--line:#dad6cb;--red:#c4281c;--redbg:#fbe4e0;--amb:#9a5a00;--ambbg:#fcefd2;--ok:#2d6a4f;--okbg:#e0efe6;--acc:#0e3a47;--accfg:#f3efe4;--digit:#0a1114}
+@media (prefers-color-scheme:dark){:root{--bg:#101417;--surf:#1a2125;--ink:#ebe8e0;--mute:#8d979e;--line:#2a3338;--red:#ff7266;--redbg:#3b201d;--amb:#f2b457;--ambbg:#372b15;--ok:#79d4a0;--okbg:#173023;--acc:#1b5a6b;--accfg:#f3efe4;--digit:#05080a}}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;overflow-x:hidden;max-width:100%}
+body{background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;overflow-wrap:anywhere;-webkit-tap-highlight-color:transparent}
+.app{max-width:560px;margin:0 auto;padding:0 0 92px}
+.hero{background:linear-gradient(160deg,#0e3a47,#08232c);color:var(--accfg);padding:calc(env(safe-area-inset-top,0px) + 18px) 18px 22px;border-radius:0 0 26px 26px}
+.hero h1{margin:0;font-size:1.35rem;letter-spacing:.01em}
+.hero p{margin:2px 0 14px;opacity:.7;font-size:.9rem}
+.odo{display:flex;align-items:center;gap:10px}
+.dg{display:flex;gap:3px}
+.dg i{font:600 1.7rem/1 ui-monospace,Menlo,Consolas,monospace;font-style:normal;background:var(--digit);color:#f1ece0;width:1.55rem;padding:7px 0;text-align:center;border-radius:4px;box-shadow:inset 0 -9px 10px -8px #000a}
+.odo span{font-size:.85rem;opacity:.7}
+.odo button{margin-left:auto;background:#ffffff1f;color:inherit;border:0;border-radius:99px;padding:8px 14px;font-size:.85rem;cursor:pointer}
+#alerts{display:grid;gap:8px;padding:14px 14px 0}
+.al{padding:11px 14px;border-radius:12px;font-weight:600;font-size:.95rem;display:flex;gap:8px}
+.al.r{background:var(--redbg);color:var(--red)}.al.a{background:var(--ambbg);color:var(--amb)}.al.k{background:var(--okbg);color:var(--ok)}
+.pane{padding:6px 14px}
+.hd{display:flex;align-items:center;justify-content:space-between;margin:20px 2px 10px}
+.hd h2{margin:0;font-size:1.15rem}
+.add{background:var(--acc);color:var(--accfg);border:0;border-radius:99px;padding:8px 16px;font-size:.9rem;cursor:pointer}
+.it{display:flex;gap:12px;align-items:center;background:var(--surf);border-radius:16px;padding:13px 14px;margin-bottom:10px;border:1px solid var(--line);cursor:pointer;position:relative;overflow:hidden}
+.it::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--ok)}
+.it.r::before{background:var(--red)}.it.a::before{background:var(--amb)}.it.h::before{background:var(--line)}
+.main{flex:1}
+.t{font-weight:600}.s{color:var(--mute);font-size:.85rem}
+.right{text-align:right;white-space:nowrap}
+.chip{display:inline-block;font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--okbg);color:var(--ok)}
+.chip.r{background:var(--redbg);color:var(--red)}.chip.a{background:var(--ambbg);color:var(--amb)}
+.done{background:none;border:1px solid var(--line);color:var(--ink);border-radius:99px;padding:5px 12px;font-size:.8rem;cursor:pointer;margin-top:6px}
+.date{width:46px;text-align:center;line-height:1.1;flex:none}
+.date b{display:block;font-size:1.25rem}.date span{font-size:.72rem;color:var(--mute)}
+.price{font-weight:700;font-variant-numeric:tabular-nums}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kpi div{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.kpi b{display:block;font-size:1.05rem;font-variant-numeric:tabular-nums}.kpi span{font-size:.75rem;color:var(--mute)}
+.g{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:10px}
+.g h3{margin:0 0 8px;font-size:.95rem}
+.g div{padding:8px 10px;border-radius:10px;margin-top:6px;font-size:.9rem}
+.g .v{background:var(--ambbg)}.g .t2{background:var(--okbg)}
+.g em{display:block;font-style:normal;font-weight:700;font-size:.78rem;margin-bottom:2px;color:var(--mute)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin:18px 2px}
+.tools button{background:none;border:1px solid var(--line);color:var(--ink);border-radius:99px;padding:8px 14px;cursor:pointer}
+.sm{color:var(--mute);font-size:.8rem;margin:0 2px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;padding:8px 14px calc(env(safe-area-inset-bottom,0px) + 10px);background:linear-gradient(transparent,var(--bg) 40%)}
+nav div{display:flex;gap:4px;background:var(--acc);padding:5px;border-radius:99px;width:100%;max-width:420px;box-shadow:0 6px 20px #0004}
+nav button{flex:1;border:0;background:none;color:var(--accfg);opacity:.65;padding:10px 4px;border-radius:99px;font-size:.9rem;cursor:pointer}
+nav button.on{background:#ffffff26;opacity:1;font-weight:600}
+dialog{border:0;border-radius:20px;background:var(--surf);color:var(--ink);padding:20px;width:min(400px,92vw)}
+dialog::backdrop{background:#0009}
+dialog h2{margin:0 0 6px;font-size:1.15rem}
+label{display:block;margin:10px 0 0;font-size:.8rem;color:var(--mute)}
+input{display:block;width:100%;margin-top:3px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:flex;gap:8px;margin-top:18px}
+.row button{flex:1;padding:11px;border-radius:12px;border:0;font:inherit;cursor:pointer}
+.ok{background:var(--acc);color:var(--accfg)}.no{background:var(--line);color:var(--ink)}.del{background:var(--redbg);color:var(--red);flex:none!important}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hero">
+    <h1>Peugeot 208 diesel</h1><p>2018 · gomme 185/65 R15</p>
+    <div class="odo"><div class="dg" id="dg"></div><span>km</span><button id="setkm">Aggiorna</button></div>
+  </div>
+  <div id="alerts"></div>
+
+  <section class="pane" id="p0">
+    <div class="hd"><h2>Scadenze</h2><button class="add" id="addD">+ Scadenza</button></div>
+    <div id="dl"></div>
+  </section>
+
+  <section class="pane" id="p1" hidden>
+    <div class="hd"><h2>Storico</h2><button class="add" id="addH">+ Intervento</button></div>
+    <div class="kpi" id="stat"></div>
+    <div style="height:14px"></div>
+    <div id="hl"></div>
+  </section>
+
+  <section class="pane" id="p2" hidden>
+    <div class="hd"><h2>Revisione o tagliando?</h2></div>
+    <div id="guide"></div>
+    <p class="sm">Dati salvati solo su questo dispositivo. Esporta per fare il backup o spostarli.</p>
+    <div class="tools"><button id="exp">Esporta</button><button id="imp">Importa</button><input type="file" id="file" accept=".json" hidden></div>
+  </section>
+</div>
+
+<nav><div id="tabs"><button class="on">Scadenze</button><button>Storico</button><button>Guida</button></div></nav>
+
+<dialog id="dlg"><form method="dialog" id="f"><h2 id="dt"></h2><div id="fields"></div>
+<div class="row"><button type="button" class="del" id="rm" hidden>Elimina</button><button type="button" class="no" id="cancel">Annulla</button><button class="ok">Salva</button></div></form></dialog>
+
+<script>
+const GUIDE=[
+["Cos’è","Controllo tecnico obbligatorio per legge (sicurezza, emissioni, rumorosità).","Manutenzione periodica del veicolo per mantenerlo efficiente."],
+["Obbligatorietà","✅ Obbligatoria (Codice della Strada).","❌ Non obbligatorio per legge, ma consigliato e richiesto per la garanzia nei primi anni."],
+["Chi la fa","Centri autorizzati o Motorizzazione.","Officina (ufficiale o indipendente)."],
+["Cosa include","Freni, sospensioni, sterzo, fari, pneumatici, cinture, emissioni, targa, ecc.","Cambio olio e filtri, controllo/cambio filtri aria e abitacolo, liquidi freni/raffreddamento, freni, sospensioni, pneumatici, aggiornamento centralina."],
+["Periodicità","Prima dopo 4 anni dall’immatricolazione, poi ogni 2 anni.","Ogni 20–25.000 km o una volta l’anno (per Peugeot 208 diesel 2018)."],
+["Costo medio","~ €79 (tariffa fissa).","€180–250 (base), €300–450 (completo)."],
+["Se scade","Multa da 173 a 694 €, sospensione del libretto, fermo del veicolo.","Nessuna multa, ma rischio di danni al motore e perdita della garanzia (se ancora valida)."]];
+const KEY="libretto-auto-v1", DAY=864e5;
+const seed={km:103107,
+history:[
+{d:"2024-05-13",km:61985,t:"Revisione",c:79,n:""},
+{d:"2024-10-11",km:73000,t:"Tagliando (senza filtro gasolio)",c:48,n:"Solo manodopera Centro Auto Serviane; ricambi acquistati a parte"},
+{d:"2024-11-02",km:0,t:"Cambio gomme anteriori",c:0,n:""},
+{d:"2024-11-02",km:0,t:"Pastiglie freni anteriori",c:0,n:"Durata media 25–40.000 km"},
+{d:"2024-11-02",km:0,t:"Dischi freni",c:0,n:"Di solito durano 2 cambi pastiglie"},
+{d:"2025-11-20",km:0,t:"Cambio luci anteriori LED",c:0,n:""},
+{d:"2025-12-13",km:0,t:"Cambio tergicristalli anteriori",c:0,n:""},
+{d:"2025-12-27",km:96468,t:"Tagliando (olio + filtri aria, abitacolo, gasolio)",c:163.36,n:"Ricambi 88,36 + manodopera 75"},
+{d:"2025-12-31",km:0,t:"Inversione gomme",c:0,n:""},
+{d:"2026-05-23",km:103107,t:"Revisione",c:0,n:""}],
+deadlines:[
+{n:"Revisione",date:"2028-05-23",km:"",em:24,ek:""},
+{n:"Tagliando",date:"2026-12-27",km:121468,em:12,ek:25000},
+{n:"Assicurazione",date:"2027-04-30",km:"",em:12,ek:""},
+{n:"Controllo pastiglie freni",date:"2026-07-01",km:"",em:12,ek:""},
+{n:"Inversione gomme",date:"2026-12-31",km:"",em:12,ek:""}]};
+let S;
+try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!S||!S.history)S=JSON.parse(JSON.stringify(seed));
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const today=()=>new Date().toISOString().slice(0,10);
+const D=s=>new Date(s+"T12:00");
+const fd=s=>s?D(s).toLocaleDateString("it-IT"):"–";
+const eur=n=>n?n.toLocaleString("it-IT",{style:"currency",currency:"EUR"}):"–";
+const nk=n=>Number(n).toLocaleString("it-IT");
+const dleft=s=>Math.round((D(s)-D(today()))/DAY);
+function addM(s,m){const d=D(s);d.setMonth(d.getMonth()+m);return d.toISOString().slice(0,10)}
+function status(x){
+  const dl=x.date?dleft(x.date):null, kl=x.km!==""&&x.km!=null?x.km-S.km:null;
+  let st="k",why=[];
+  if(dl!==null){if(dl<0){st="r";why.push("scaduto da "+(-dl)+" giorni")}else if(dl<=30){st="a";why.push("tra "+dl+" giorni")}}
+  if(kl!==null){if(kl<0){st="r";why.push("oltre di "+nk(-kl)+" km")}else if(kl<=1500){if(st!=="r")st="a";why.push("tra "+nk(kl)+" km")}}
+  const ml=[];if(dl!==null)ml.push(dl<0?(-dl)+" g di ritardo":dl+" giorni");if(kl!==null)ml.push(kl<0?nk(-kl)+" km di ritardo":nk(kl)+" km");
+  return{st,why:why.join(", "),left:ml};
+}
+function render(){
+  $("dg").innerHTML=String(S.km).padStart(6,"0").split("").map(c=>`<i>${c}</i>`).join("");
+  const ds=S.deadlines.map((x,i)=>({x,i,s:status(x)})).sort((a,b)=>"rak".indexOf(a.s.st)-"rak".indexOf(b.s.st)||(a.x.date||"9").localeCompare(b.x.date||"9"));
+  const al=ds.filter(o=>o.s.st!=="k").map(o=>`<div class="al ${o.s.st}"><span>${o.s.st==="r"?"⚠":"●"}</span><span>${esc(o.x.n)}: ${o.s.why}</span></div>`);
+  $("alerts").innerHTML=al.length?al.join(""):'<div class="al k"><span>✓</span><span>Tutto in regola: nessuna scadenza vicina.</span></div>';
+  const L={r:"Scaduto",a:"In arrivo",k:"Ok"};
+  $("dl").innerHTML=ds.map(({x,i,s})=>`<div class="it ${s.st}" data-ed="${i}"><div class="main"><div class="t">${esc(x.n)}</div>
+  <div class="s">${fd(x.date)}${x.km!==""?" · "+nk(x.km)+" km":""}</div>${x.em||x.ek?`<div class="s">ogni ${[x.em?x.em+" mesi":"",x.ek?nk(x.ek)+" km":""].filter(Boolean).join(" o ")}</div>`:""}</div>
+  <div class="right"><span class="chip ${s.st}">${L[s.st]}</span><div class="s">${s.left.join(" · ")}</div><button class="done" data-done="${i}">✔ Fatto</button></div></div>`).join("")||'<p class="sm">Nessuna scadenza: aggiungine una.</p>';
+  const hs=S.history.map((x,i)=>({x,i})).sort((a,b)=>b.x.d.localeCompare(a.x.d));
+  $("hl").innerHTML=hs.map(({x,i})=>`<div class="it h" data-eh="${i}"><div class="date"><b>${D(x.d).getDate()}</b><span>${D(x.d).toLocaleDateString("it-IT",{month:"short",year:"2-digit"})}</span></div>
+  <div class="main"><div class="t">${esc(x.t)}</div><div class="s">${x.km?nk(x.km)+" km":""}${x.km&&x.n?" · ":""}${esc(x.n)}</div></div><div class="price right">${eur(x.c)}</div></div>`).join("")||'<p class="sm">Ancora nessun intervento.</p>';
+  const y=new Date().getFullYear(),tot=S.history.reduce((a,h)=>a+(+h.c||0),0),ty=S.history.filter(h=>h.d.startsWith(y)).reduce((a,h)=>a+(+h.c||0),0);
+  $("stat").innerHTML=`<div><b>${eur(tot)||"–"}</b><span>totale</span></div><div><b>${eur(ty)}</b><span>nel ${y}</span></div><div><b>${S.history.length}</b><span>interventi</span></div>`;
+}
+$("guide").innerHTML=GUIDE.map(g=>`<div class="g"><h3>${g[0]}</h3><div class="v"><em>Revisione (obbligatoria)</em>${g[1]}</div><div class="t2"><em>Tagliando</em>${g[2]}</div></div>`).join("");
+function form(title,fields,vals,cb,del){
+  $("dt").textContent=title;
+  $("fields").innerHTML=fields.map(([k,l,t])=>`<label>${l}<input name="${k}" type="${t}" ${t==="number"?'step="any" inputmode="decimal"':""} value="${esc(vals[k]??"")}"></label>`).join("");
+  $("rm").hidden=!del;$("rm").onclick=()=>{if(confirm("Eliminare?")){del();save();render();$("dlg").close()}};
+  $("f").onsubmit=()=>{const o={};fields.forEach(([k,,t])=>{const v=$("f").elements[k].value;o[k]=t==="number"?(v===""?"":+v):v});cb(o);save();render()};
+  $("dlg").showModal();
+}
+const HF=[["d","Data","date"],["km","Km (facoltativo)","number"],["t","Intervento","text"],["c","Spesa totale in €","number"],["n","Note","text"]];
+const DF=[["n","Cosa","text"],["date","Scade il","date"],["km","Scade ai km","number"],["em","Si ripete ogni (mesi)","number"],["ek","Si ripete ogni (km)","number"]];
+$("cancel").onclick=()=>$("dlg").close();
+$("addH").onclick=()=>form("Nuovo intervento",HF,{d:today(),km:S.km},o=>{if(o.t)S.history.push(o)});
+$("addD").onclick=()=>form("Nuova scadenza",DF,{},o=>{if(o.n)S.deadlines.push(o)});
+$("setkm").onclick=()=>{const v=prompt("Km attuali dell’auto:",S.km);if(v!==null&&+v>0){S.km=+v;save();render()}};
+document.addEventListener("click",e=>{
+  const dn=e.target.closest("[data-done]");
+  if(dn){const x=S.deadlines[+dn.dataset.done];
+    form("Fatto: "+x.n,[["d","Data","date"],["km","Km","number"],["c","Spesa totale in €","number"],["n","Note","text"]],{d:today(),km:S.km},o=>{
+      S.history.push({d:o.d,km:o.km,t:x.n,c:o.c,n:o.n});
+      if(o.km&&o.km>S.km)S.km=o.km;
+      if(x.em)x.date=addM(o.d,+x.em);
+      if(x.ek&&o.km)x.km=o.km+ +x.ek;});return}
+  const ed=e.target.closest("[data-ed]");
+  if(ed){const i=+ed.dataset.ed;form("Modifica scadenza",DF,S.deadlines[i],o=>S.deadlines[i]=o,()=>S.deadlines.splice(i,1));return}
+  const eh=e.target.closest("[data-eh]");
+  if(eh){const i=+eh.dataset.eh;form("Modifica intervento",HF,S.history[i],o=>S.history[i]=o,()=>S.history.splice(i,1))}
+});
+[...$("tabs").children].forEach((b,i)=>b.onclick=()=>{[...$("tabs").children].forEach((x,j)=>{x.classList.toggle("on",i===j);$("p"+j).hidden=i!==j});scrollTo(0,0)});
+$("exp").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,1)],{type:"application/json"}));a.download="libretto-auto-"+today()+".json";a.click()};
+$("imp").onclick=()=>$("file").click();
+$("file").onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const o=JSON.parse(t);if(!o.history||!o.deadlines)throw 0;S=o;save();render()}catch(x){alert("File non valido.")}})};
+render();
+</script>
+</body>
+</html>
